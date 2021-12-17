@@ -221,6 +221,32 @@ convert_to_viper <- function(network,
         })
 }
 
+# enircher -------------------------------------------------------------------
+
+#' @rdname convert_to_
+#'
+#' @inheritParams run_enrich
+#'
+#' @family convert_to_ variants
+#' @export
+convert_to_enricher <- function(network,
+                             .source,
+                             .target) {
+    .check_quos_status({{ .source }}, {{ .target }},
+                       .dots_names = c(".source", ".target")
+    )
+
+    network <- network %>%
+        convert_f_defaults(
+            UpGene = {{ .source }},
+            DownGene = {{ .target }}
+        )
+    network$Type <- 'controls-expression-of'
+    network <- network[,c('UpGene','Type','DownGene')]
+    network}
+
+
+
 # gsva --------------------------------------------------------------------
 
 #' @rdname convert_to_

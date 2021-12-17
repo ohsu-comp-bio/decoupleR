@@ -53,7 +53,7 @@ decouple <- function(mat,
                      .source = .data$source,
                      .target = .data$target,
                      statistics = c('udt','mdt','aucell','wmean','wsum','ulm',
-                                    'mlm','viper','gsva','ora','fgsea'),
+                                    'mlm','viper','gsva','ora','fgsea','enricher'),
                      args = list(NULL),
                      consensus_score = TRUE,
                      include_time = FALSE,
@@ -133,7 +133,8 @@ decouple <- function(mat,
         viper = expr(run_viper),
         gsva = expr(run_gsva),
         ora = expr(run_ora),
-        fgsea = expr(run_fgsea)
+        fgsea = expr(run_fgsea),
+        enricher = expr(run_enrich)
     )
 
     statistics %>%
