@@ -8,6 +8,7 @@
 \alias{convert_to_wsum}
 \alias{convert_to_wmean}
 \alias{convert_to_viper}
+\alias{convert_to_enricher}
 \alias{convert_to_gsva}
 \alias{convert_to_ora}
 \alias{convert_to_fgsea}
@@ -26,6 +27,8 @@ convert_to_wsum(network, .source, .target, .mor = NULL, .likelihood = NULL)
 convert_to_wmean(network, .source, .target, .mor = NULL, .likelihood = NULL)
 
 convert_to_viper(network, .source, .target, .mor = NULL, .likelihood = NULL)
+
+convert_to_enricher(network, .source, .target)
 
 convert_to_gsva(network, .source, .target)
 

@@ -52,6 +52,7 @@ run_aucell(mat, network, .source='tf', nproc=1)
 \seealso{
 Other decoupleR statistics: 
 \code{\link{decouple}()},
+\code{\link{run_enrich}()},
 \code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},

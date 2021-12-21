@@ -10,7 +10,7 @@ decouple(
   .source = .data$source,
   .target = .data$target,
   statistics = c("udt", "mdt", "aucell", "wmean", "wsum", "ulm", "mlm", "viper",
-    "gsva", "ora", "fgsea"),
+    "gsva", "ora", "fgsea", "enricher"),
   args = list(NULL),
   consensus_score = TRUE,
   include_time = FALSE,
@@ -85,6 +85,7 @@ if (FALSE) {
 \seealso{
 Other decoupleR statistics: 
 \code{\link{run_aucell}()},
+\code{\link{run_enrich}()},
 \code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},

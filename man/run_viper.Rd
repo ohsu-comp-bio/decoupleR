@@ -86,6 +86,7 @@ run_viper(mat, network, .source='tf', verbose = FALSE)
 Other decoupleR statistics: 
 \code{\link{decouple}()},
 \code{\link{run_aucell}()},
+\code{\link{run_enrich}()},
 \code{\link{run_fgsea}()},
 \code{\link{run_gsva}()},
 \code{\link{run_mdt}()},
