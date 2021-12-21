@@ -55,8 +55,7 @@ run_enrich <- function(mat,
     enr_scores$scale()
     enr_scores$assign_weights()
     enr_scores$calculate_enrichment()
-
-    enr_scores$total_enrichment %>%
+    t(enr_scores$total_enrichment) %>%
     as.data.frame() %>%
     rownames_to_column("source") %>%
     pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%
