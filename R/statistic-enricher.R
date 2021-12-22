@@ -13,6 +13,7 @@
 #' regulon.
 #' @param thresh.filter Float, Prior to normalization remove features that have a standard deviation per feature less
 #' than {thresh_filter}
+#' @param scaler_type Character indicating whether to scale and by what method to scale dataset
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
