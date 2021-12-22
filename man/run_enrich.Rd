@@ -10,6 +10,7 @@ run_enrich(
   .source = .data$source,
   .target = .data$target,
   minsize = 0,
+  scaler_type = NULL,
   ...
 )
 }
