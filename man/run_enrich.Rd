@@ -26,6 +26,8 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
+\item{scaler_type}{Character indicating whether to scale and by what method to scale dataset}
+
 \item{cohort}{Character, cohort to be processed.}
 
 \item{regulon_size}{Integer indicating the minimum number of targets allowed per
