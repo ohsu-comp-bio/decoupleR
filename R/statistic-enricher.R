@@ -40,6 +40,7 @@ run_enrich <- function(mat,
                       .source = .data$source,
                       .target = .data$target,
                       minsize = 0,
+                       scaler_type = NULL,
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -52,7 +53,7 @@ run_enrich <- function(mat,
     pd_mat <- enr$pd$DataFrame(mat, index=rownames(mat), columns=colnames(mat))
     # Analysis ----------------------------------------------------------------
     enr_scores <- enr$Enrichment(cohort='decoupler',expr=pd_mat,regulon=pd_network,regulon_size=minsize)
-    enr_scores$scale()
+    enr_scores$scale(scaler_type=scaler_type)
     enr_scores$assign_weights()
     enr_scores$calculate_enrichment()
     t(enr_scores$total_enrichment) %>%
