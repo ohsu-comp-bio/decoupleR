@@ -9,7 +9,9 @@ run_enrich(
   network,
   .source = .data$source,
   .target = .data$target,
-  minsize = 0,
+  .mor = .data$mor,
+  .likelihood = .data$likelihood,
+  minsize = 5,
   scaler_type = NULL,
   ...
 )
@@ -25,6 +27,10 @@ in \code{network} \code{.target} column.}
 \item{.source}{Column with source nodes.}
 
 \item{.target}{Column with target nodes.}
+
+\item{.mor}{Column with edge mode of regulation (i.e. mor).}
+
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{scaler_type}{Character indicating whether to scale and by what method to scale dataset}
 

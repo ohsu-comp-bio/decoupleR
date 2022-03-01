@@ -40,18 +40,24 @@ run_enrich <- function(mat,
                       network,
                       .source = .data$source,
                       .target = .data$target,
-                      minsize = 0,
-                       scaler_type = NULL,
+                      .mor = .data$mor,
+                      .likelihood = .data$likelihood,
+                      minsize = 5,
+                      scaler_type = NULL,
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
     use_condaenv('base')
     enr <- import('enricher.enrich')
+
     # Before to start ---------------------------------------------------------
     network <- network %>%
-        convert_to_enricher({{ .source }}, {{ .target }})
+        rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    network <- filt_minsize(rownames(mat), network, minsize)
+    network <- network %>% convert_f_defaults( UpGene = source, DownGene = target) %>% dplyr::mutate(Type = 'controls-expresssion-of') %>% select(UpGene,Type, DownGene) 
     pd_network <- enr$pd$DataFrame(network)
     pd_mat <- enr$pd$DataFrame(mat, index=rownames(mat), columns=colnames(mat))
+
     # Analysis ----------------------------------------------------------------
     enr_scores <- enr$Enrichment(cohort='decoupler',expr=pd_mat,regulon=pd_network,regulon_size=minsize)
     enr_scores$scale(scaler_type=scaler_type)

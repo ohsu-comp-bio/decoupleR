@@ -12,7 +12,7 @@ run_viper(
   .mor = .data$mor,
   .likelihood = .data$likelihood,
   verbose = FALSE,
-  minsize = 0,
+  minsize = 5,
   pleiotropy = TRUE,
   eset.filter = FALSE,
   ...
@@ -32,19 +32,18 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{verbose}{Logical, whether progression messages should be printed in
 the terminal.}
 
-\item{minsize}{Integer indicating the minimum number of targets allowed per
-regulon.}
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 
 \item{pleiotropy}{Logical, whether correction for pleiotropic regulation
 should be performed.}
 
 \item{eset.filter}{Logical, whether the dataset should be limited only to
-the genes represented in the interactome .}
+the genes represented in the interactome.}
 
 \item{...}{
   Arguments passed on to \code{\link[viper:viper]{viper::viper}}

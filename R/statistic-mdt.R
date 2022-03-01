@@ -26,6 +26,7 @@
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -39,7 +40,6 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import ranger
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -59,7 +59,8 @@ run_mdt <- function(mat,
                     trees = 10,
                     min_n = 20,
                     nproc = 4,
-                    seed = 42
+                    seed = 42,
+                    minsize = 5
 ) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
@@ -67,7 +68,8 @@ run_mdt <- function(mat,
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  network <- filt_minsize(rownames(mat), network, minsize)
 
   # Preprocessing -----------------------------------------------------------
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%

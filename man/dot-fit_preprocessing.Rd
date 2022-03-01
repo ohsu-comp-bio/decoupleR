@@ -2,7 +2,7 @@
 % Please edit documentation in R/decoupleR-pre.R
 \name{.fit_preprocessing}
 \alias{.fit_preprocessing}
-\title{Pre-processing for methods that fit models}
+\title{Pre-processing for methods that fit networks.}
 \usage{
 .fit_preprocessing(network, mat, center, na.rm, sparse)
 }
@@ -32,9 +32,14 @@ A named list of matrices to evaluate in methods that fit models, like
 }
 \description{
 \itemize{
-\item Get only the intersection of target features between \code{mat} and \code{network}.
-\item Transform tidy \code{network} into \code{matrix} representation with \code{mor} as value.
 \item If \code{center} is true, then the expression values are centered by the
 mean of expression across the samples.
 }
+}
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+network <- rename_net(network, tf, target, mor, likelihood)
+.fit_preprocessing(network, mat, center = FALSE, na.rm = FALSE, sparse = FALSE)
 }

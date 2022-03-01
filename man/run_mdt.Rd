@@ -17,7 +17,8 @@ run_mdt(
   trees = 10,
   min_n = 20,
   nproc = 4,
-  seed = 42
+  seed = 42,
+  minsize = 5
 )
 }
 \arguments{
@@ -34,7 +35,7 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{sparse}{Deprecated parameter.}
 
@@ -53,6 +54,8 @@ are required for the node to be split further.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL for random
 number generation.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

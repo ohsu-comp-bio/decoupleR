@@ -9,10 +9,12 @@ run_ora(
   network,
   .source = .data$source,
   .target = .data$target,
-  n_up = 300,
-  n_bottom = 300,
+  n_up = ceiling(0.05 * nrow(mat)),
+  n_bottom = 0,
   n_background = 20000,
   with_ties = TRUE,
+  seed = 42,
+  minsize = 5,
   ...
 )
 }
@@ -40,6 +42,11 @@ the total number of unique targets in the union of \code{mat} and \code{network}
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
+
+\item{seed}{A single value, interpreted as an integer, or NULL for random
+number generation.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 
 \item{...}{
   Arguments passed on to \code{\link[stats:fisher.test]{stats::fisher.test}}

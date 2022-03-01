@@ -18,6 +18,7 @@
 #' [base::rowMeans()].
 #' @param na.rm Should missing values (including NaN) be omitted from the
 #'  calculations of [base::rowMeans()]?
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -33,7 +34,6 @@
 #' @import tibble
 #' @import tidyr
 #' @importFrom stats coef lm summary.lm
-#' @importFrom speedglm speedlm.fit
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -42,22 +42,24 @@
 #'
 #' run_mlm(mat, network, .source='tf')
 run_mlm <- function(mat,
-                      network,
-                      .source = .data$source,
-                      .target = .data$target,
-                      .mor = .data$mor,
-                      .likelihood = .data$likelihood,
-                      sparse = FALSE,
-                      center = FALSE,
-                      na.rm = FALSE) {
+                    network,
+                    .source = .data$source,
+                    .target = .data$target,
+                    .mor = .data$mor,
+                    .likelihood = .data$likelihood,
+                    sparse = FALSE,
+                    center = FALSE,
+                    na.rm = FALSE,
+                    minsize = 5) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
-
+  
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_mlm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
-
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  network <- filt_minsize(rownames(mat), network, minsize)
+  
   # Preprocessing -----------------------------------------------------------
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%
     # Model evaluation --------------------------------------------------------
@@ -83,7 +85,7 @@ run_mlm <- function(mat,
     mat = mat,
     mor_mat = mor_mat
   )
-
+  
   # Allocate the space for all conditions and evaluate the proposed model.
   expand_grid(
     condition = colnames(mat)
@@ -99,9 +101,8 @@ run_mlm <- function(mat,
 #' @keywords internal
 #' @noRd
 .mlm_evaluate_model <- function(condition, mat, mor_mat) {
-  #data <- cbind(data.frame(y=mat[ , condition]), mor_mat)
   fit <- lm(mat[ , condition] ~ mor_mat) %>%
-      summary()
+    summary()
   scores <- as.vector(fit$coefficients[,3][-1])
   pvals <- as.vector(fit$coefficients[,4][-1])
   sources <- colnames(mor_mat)
@@ -109,8 +110,7 @@ run_mlm <- function(mat,
   if (diff_n > 0) {
     stop(stringr::str_glue('After intersecting mat and network, at least {diff_n} sources in the network are colinear with other sources.
       Cannot fit a linear model with colinear covariables, please remove them.
-      Please run decoupleR::check_corr to see what regulators are correlated.
-      Anything above 0.5 correlation should be removed.'))
+      Please run decoupleR::check_corr to see what regulators are correlated.'))
   }
   tibble(score=scores, p_value=pvals, source=sources)
 }
