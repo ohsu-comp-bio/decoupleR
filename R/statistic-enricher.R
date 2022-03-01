@@ -1,7 +1,7 @@
 #' Enricher Python module used to predict the activity of regulatory proteins
 #'
 #' @description
-#' Calculates regulatory activities using Enricher.
+#' Calculates regulatory activities using Enricher
 #'
 #' @details
 #' This function is a wrapper for the python method [enricher.enrich()].
@@ -47,7 +47,7 @@ run_enrich <- function(mat,
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
-    use_condaenv('base')
+    use_condaenv('enrich_env')
     enr <- import('enricher.enrich')
 
     # Before to start ---------------------------------------------------------

@@ -53,7 +53,7 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities using Enricher.
+Calculates regulatory activities using Enricher
 }
 \details{
 This function is a wrapper for the python method \code{\link[=enricher.enrich]{enricher.enrich()}}.
