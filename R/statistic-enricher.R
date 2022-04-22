@@ -14,6 +14,7 @@
 #' @param thresh.filter Float, Prior to normalization remove features that have a standard deviation per feature less
 #' than {thresh_filter}
 #' @param scaler_type Character indicating whether to scale and by what method to scale dataset
+#' @param enr_type Character indicating which enrichment slot to use 
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
 #'  1. `statistic`: Indicates which method is associated with which score.
@@ -44,6 +45,7 @@ run_enrich <- function(mat,
                       .likelihood = .data$likelihood,
                       minsize = 5,
                       scaler_type = NULL,
+                      enr_type = 'total_enrichment',
                       ...) {
     # Check for NAs/Infs in mat
     check_nas_infs(mat)
@@ -63,7 +65,10 @@ run_enrich <- function(mat,
     enr_scores$scale(scaler_type=scaler_type)
     enr_scores$assign_weights()
     enr_scores$calculate_enrichment()
-    t(enr_scores$total_enrichment) %>%
+    scores <- enr_scores[[enr_type]]
+    if (enr_type %in% c('total_enrichment','local_enrichment','delta')){
+        scores <- t(scores)}
+    scores %>%
     as.data.frame() %>%
     rownames_to_column("source") %>%
     pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%

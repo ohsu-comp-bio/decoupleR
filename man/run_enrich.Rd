@@ -13,6 +13,7 @@ run_enrich(
   .likelihood = .data$likelihood,
   minsize = 5,
   scaler_type = NULL,
+  enr_type = "total_enrichment",
   ...
 )
 }
@@ -33,6 +34,8 @@ in \code{network} \code{.target} column.}
 \item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{scaler_type}{Character indicating whether to scale and by what method to scale dataset}
+
+\item{enr_type}{Character indicating which enrichment slot to use}
 
 \item{cohort}{Character, cohort to be processed.}
 
