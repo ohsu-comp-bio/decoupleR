@@ -14,6 +14,7 @@ run_enrich(
   minsize = 5,
   scaler_type = NULL,
   enr_type = "total_enrichment",
+  enr_weights = "weights.tsv",
   ...
 )
 }
@@ -36,6 +37,8 @@ in \code{network} \code{.target} column.}
 \item{scaler_type}{Character indicating whether to scale and by what method to scale dataset}
 
 \item{enr_type}{Character indicating which enrichment slot to use}
+
+\item{enr_weights}{Character indicating out file handle for enrichment regulon weights}
 
 \item{cohort}{Character, cohort to be processed.}
 
