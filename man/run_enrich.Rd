@@ -9,8 +9,12 @@ run_enrich(
   network,
   .source = .data$source,
   .target = .data$target,
-  minsize = 0,
+  .mor = .data$mor,
+  .likelihood = .data$likelihood,
+  minsize = 5,
   scaler_type = NULL,
+  enr_type = "total_enrichment",
+  enr_weights = "weights.tsv",
   ...
 )
 }
@@ -26,7 +30,15 @@ in \code{network} \code{.target} column.}
 
 \item{.target}{Column with target nodes.}
 
+\item{.mor}{Column with edge mode of regulation (i.e. mor).}
+
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
+
 \item{scaler_type}{Character indicating whether to scale and by what method to scale dataset}
+
+\item{enr_type}{Character indicating which enrichment slot to use}
+
+\item{enr_weights}{Character indicating out file handle for enrichment regulon weights}
 
 \item{cohort}{Character, cohort to be processed.}
 
@@ -47,7 +59,7 @@ across the samples. Resulting tibble contains the following columns:
 }
 }
 \description{
-Calculates regulatory activities using Enricher.
+Calculates regulatory activities using Enricher
 }
 \details{
 This function is a wrapper for the python method \code{\link[=enricher.enrich]{enricher.enrich()}}.

@@ -21,6 +21,7 @@
 #' are required for the node to be split further.
 #' @param seed A single value, interpreted as an integer, or NULL for random
 #'  number generation.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #'
 #' @return A long format tibble of the enrichment scores for each source
 #'  across the samples. Resulting tibble contains the following columns:
@@ -34,7 +35,6 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
-#' @import rpart
 #' @examples
 #' inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
 #'
@@ -52,7 +52,8 @@ run_udt <- function(mat,
                     center = FALSE,
                     na.rm = FALSE,
                     min_n = 20,
-                    seed = 42
+                    seed = 42,
+                    minsize = 5
 ) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
@@ -60,7 +61,8 @@ run_udt <- function(mat,
   # Before to start ---------------------------------------------------------
   # Convert to standard tibble: source-target-mor.
   network <- network %>%
-    convert_to_ulm({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+    rename_net({{ .source }}, {{ .target }}, {{ .mor }}, {{ .likelihood }})
+  network <- filt_minsize(rownames(mat), network, minsize)
 
   # Preprocessing -----------------------------------------------------------
   .fit_preprocessing(network, mat, center, na.rm, sparse) %>%

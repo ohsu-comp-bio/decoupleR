@@ -4,12 +4,14 @@
 \alias{run_consensus}
 \title{Consensus score between methods}
 \usage{
-run_consensus(df, include_time = FALSE)
+run_consensus(df, include_time = FALSE, seed = NULL)
 }
 \arguments{
 \item{df}{\code{decouple} data frame result}
 
 \item{include_time}{Should the time per statistic evaluated be informed?}
+
+\item{seed}{Deprecated parameter.}
 }
 \value{
 Updated tibble with the computed consensus score between methods
@@ -17,4 +19,23 @@ Updated tibble with the computed consensus score between methods
 \description{
 Function to generate a consensus score between methods from the
 result of the \code{decouple} function.
+}
+\examples{
+inputs_dir <- system.file("testdata", "inputs", package = "decoupleR")
+mat <- readRDS(file.path(inputs_dir, "input-expr_matrix.rds"))
+network <- readRDS(file.path(inputs_dir, "input-dorothea_genesets.rds"))
+
+results <- decouple(
+   mat = mat,
+   network = network,
+   .source = "tf",
+   .target = "target",
+   statistics = c("wmean", "ulm"),
+   args = list(
+            wmean = list(.mor = "mor", .likelihood = "likelihood"),
+            ulm = list(.mor = "mor", .likelihood = "likelihood")
+        ),
+   consensus_score = FALSE
+   )
+run_consensus(results)
 }

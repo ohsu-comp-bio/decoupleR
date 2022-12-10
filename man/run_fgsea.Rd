@@ -12,6 +12,7 @@ run_fgsea(
   times = 100,
   nproc = 4,
   seed = 42,
+  minsize = 5,
   ...
 )
 }
@@ -32,6 +33,8 @@ in \code{network} \code{.target} column.}
 \item{nproc}{Number of cores to use for computation.}
 
 \item{seed}{A single value, interpreted as an integer, or NULL.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 
 \item{...}{
   Arguments passed on to \code{\link[fgsea:fgseaMultilevel]{fgsea::fgseaMultilevel}}

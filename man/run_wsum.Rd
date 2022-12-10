@@ -14,7 +14,8 @@ run_wsum(
   times = 100,
   seed = 42,
   sparse = TRUE,
-  randomize_type = "rows"
+  randomize_type = "rows",
+  minsize = 5
 )
 }
 \arguments{
@@ -31,7 +32,7 @@ in \code{network} \code{.target} column.}
 
 \item{.mor}{Column with edge mode of regulation (i.e. mor).}
 
-\item{.likelihood}{Column with edge likelihood.}
+\item{.likelihood}{Deprecated argument. Now it will always be set to 1.}
 
 \item{times}{How many permutations to do?}
 
@@ -41,6 +42,8 @@ number generation.}
 \item{sparse}{Should the matrices used for the calculation be sparse?}
 
 \item{randomize_type}{How to randomize the expression matrix.}
+
+\item{minsize}{Integer indicating the minimum number of targets per source.}
 }
 \value{
 A long format tibble of the enrichment scores for each source

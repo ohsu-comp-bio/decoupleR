@@ -11,6 +11,7 @@
 #' @param times How many permutations to do?
 #' @param nproc Number of cores to use for computation.
 #' @param seed A single value, interpreted as an integer, or NULL.
+#' @param minsize Integer indicating the minimum number of targets per source.
 #' @inheritDotParams fgsea::fgseaMultilevel -pathways -stats -nPermSimple -nproc
 #'
 #' @return A long format tibble of the enrichment scores for each source
@@ -35,13 +36,20 @@ run_fgsea <- function(mat,
                       times = 100,
                       nproc = 4,
                       seed = 42,
+                      minsize = 5,
                       ...) {
   # Check for NAs/Infs in mat
   check_nas_infs(mat)
+  
+  network <- network %>%
+    rename_net({{ .source }}, {{ .target }})
+  network <- filt_minsize(rownames(mat), network, minsize)
+  regulons <- extract_sets(network)
 
-  regulons <- network %>%
-    convert_to_fgsea({{ .source }}, {{ .target }})
-
+  if (is.null(colnames(mat))){
+    colnames(mat) <- 1:ncol(mat)
+  }
+  
   conditions <- colnames(mat) %>%
     set_names()
 
