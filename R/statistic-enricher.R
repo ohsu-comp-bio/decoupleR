@@ -38,6 +38,8 @@
 #'
 #' run_enrich(mat, network, .source='tf', verbose = FALSE)
 
+# Adding another line
+
 run_enrich <- function(mat,
                       network,
                       .source = .data$source,
