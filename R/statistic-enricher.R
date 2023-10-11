@@ -63,7 +63,8 @@ run_enrich <- function(mat,
     pd_mat <- enr$pd$DataFrame(mat, index=rownames(mat), columns=colnames(mat))
 
     # Analysis ----------------------------------------------------------------
-    enr_scores <- enr$Enrichment(cohort='decoupler',expr=pd_mat,regulon=pd_network,regulon_size=minsize)
+    enr_scores <- enr$Enrichment(cohort='decoupler',expr=pd_mat,regulon_size=minsize)
+    enr_scores[["regulon"]] <- pd_network
     enr_scores$scale(scaler_type=scaler_type)
     enr_scores$assign_weights()
     enr_scores$calculate_enrichment()
