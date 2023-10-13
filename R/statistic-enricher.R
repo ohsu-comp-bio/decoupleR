@@ -38,8 +38,6 @@
 #'
 #' run_enrich(mat, network, .source='tf', verbose = FALSE)
 
-# Adding another line
-
 run_enrich <- function(mat,
                       network,
                       .source = .data$source,
@@ -80,5 +78,6 @@ run_enrich <- function(mat,
     rownames_to_column("source") %>%
     pivot_longer(-.data$source, names_to = "condition", values_to = "score") %>%
     add_column(statistic = "enricher", .before = 1) %>%
-    mutate(p_value = 2*stats::pnorm(-abs(.data$score)))
+    mutate(p_value = 2*stats::pnorm(-abs(.data$score))) %>%
+    as.data.frame()
 }
